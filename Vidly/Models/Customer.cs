@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Vidly.Models
 {
@@ -13,5 +14,7 @@ namespace Vidly.Models
         // by convention, entity framework treats this naming syntax
         //   as a db foreign key to the primary key (Id) of MembershipType
         public byte MembershipTypeId { get; set; }
+        // this property is nullable
+        public DateTime? Birthdate { get; set; }
     }
 }

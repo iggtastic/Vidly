@@ -231,6 +231,26 @@
     <Compile Include="Migrations\201706022137571_UpdateExistingCustomersWithMembershipTypeName.Designer.cs">
       <DependentUpon>201706022137571_UpdateExistingCustomersWithMembershipTypeName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706022202093_AddBirthdatePropertyToCustomer.cs" />
+    <Compile Include="Migrations\201706022202093_AddBirthdatePropertyToCustomer.Designer.cs">
+      <DependentUpon>201706022202093_AddBirthdatePropertyToCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706022206338_SeedBirthdatesForExistingCustomers.cs" />
+    <Compile Include="Migrations\201706022206338_SeedBirthdatesForExistingCustomers.Designer.cs">
+      <DependentUpon>201706022206338_SeedBirthdatesForExistingCustomers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706022221118_AllowNullBirthdateInCustomers.cs" />
+    <Compile Include="Migrations\201706022221118_AllowNullBirthdateInCustomers.Designer.cs">
+      <DependentUpon>201706022221118_AllowNullBirthdateInCustomers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706022231495_RemoveBirthdateForCustomer.cs" />
+    <Compile Include="Migrations\201706022231495_RemoveBirthdateForCustomer.Designer.cs">
+      <DependentUpon>201706022231495_RemoveBirthdateForCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706022318307_ChangeDateTimeToNullable.cs" />
+    <Compile Include="Migrations\201706022318307_ChangeDateTimeToNullable.Designer.cs">
+      <DependentUpon>201706022318307_ChangeDateTimeToNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -342,6 +362,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706022137571_UpdateExistingCustomersWithMembershipTypeName.resx">
       <DependentUpon>201706022137571_UpdateExistingCustomersWithMembershipTypeName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706022202093_AddBirthdatePropertyToCustomer.resx">
+      <DependentUpon>201706022202093_AddBirthdatePropertyToCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706022206338_SeedBirthdatesForExistingCustomers.resx">
+      <DependentUpon>201706022206338_SeedBirthdatesForExistingCustomers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706022221118_AllowNullBirthdateInCustomers.resx">
+      <DependentUpon>201706022221118_AllowNullBirthdateInCustomers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706022231495_RemoveBirthdateForCustomer.resx">
+      <DependentUpon>201706022231495_RemoveBirthdateForCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706022318307_ChangeDateTimeToNullable.resx">
+      <DependentUpon>201706022318307_ChangeDateTimeToNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

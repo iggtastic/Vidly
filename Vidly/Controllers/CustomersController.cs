@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -45,7 +46,7 @@ namespace Vidly.Controllers
             // gets the customer matching the provided id
             // note that this query will be executed against the db immediately
             //   due to use of the Linq method, SingleOrDefault
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
             //var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
