@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using Vidly.Models;
@@ -8,15 +9,30 @@ namespace Vidly.Controllers
 {
     public class MoviesController : Controller
     {
+        private ApplicationDbContext _context;
+
+        public MoviesController()
+        {
+            _context = new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
         // movies
         public ActionResult Index()
         {
-            return View(GetMovies());            
+            var movies = _context.Movies.Include(m => m.Genre).ToList();
+
+            return View(movies);
+            //return View(GetMovies());            
         }
 
         public ActionResult Details(int id)
         {
-            var movie = GetMovies().SingleOrDefault(m => m.Id == id);
+            var movie = _context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
 
             if (movie == null)
                 return HttpNotFound();
@@ -24,13 +40,13 @@ namespace Vidly.Controllers
             return View(movie);
         }
 
-        private IList<Movie> GetMovies()
-        {
-            return new List<Movie>
-            {
-                new Movie { Name = "Shrek", Id = 1 },
-                new Movie { Name = "Fargo", Id = 2 }
-            };
-        }
+        //private IList<Movie> GetMovies()
+        //{
+        //    return new List<Movie>
+        //    {
+        //        new Movie { Name = "Shrek", Id = 1 },
+        //        new Movie { Name = "Fargo", Id = 2 }
+        //    };
+        //}
     }
 }
