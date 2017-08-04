@@ -1,0 +1,42 @@
+﻿@*model Vidly.Models.Customer*@
+@model Vidly.ViewModels.CustomerFormViewModel
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Customer</h2>
+
+@using (@Html.BeginForm("Save", "Customers")) {
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Name)
+        @*
+            Using the html helper methods with form fields will pull in the validation requirements of the model!
+            You can add an anonymous function as the second argument of the helper method.
+               In this case, the helper adds the protected "class" attribute to the textbox.
+                 Note that protected attributes must be prefaced with '@'
+               'form-control' is a bootstrap class which makes form fields look nice.
+        *@
+        @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Birthdate)
+        @*<label for="Birthdate">Date of Birth</label>*@ @* another way to change the label display text. *@
+        @Html.TextBoxFor(m => m.Customer.Birthdate,"{0:d MMM yyyy}", new { @class = "form-control" })
+    </div>    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.MembershipTypeId)
+        @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes,"Id","Name"),"Select Membership Type", new { @class = "form-control" })
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter) Subscribed to Newsletter?
+        </label>
+    </div>
+
+    @Html.HiddenFor(m=>m.Customer.Id)
+    <button type="submit" class="btn btn-primary">Save</button>
+
+} @* since we've wrapped the beginForm html helper in a using block, this brace is the end of the form *@
+
