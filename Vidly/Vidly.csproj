@@ -275,6 +275,10 @@
     <Compile Include="Migrations\201708022208572_SeedMoviesTableForNewFields.Designer.cs">
       <DependentUpon>201708022208572_SeedMoviesTableForNewFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708111935104_AddMovieAnnotations.cs" />
+    <Compile Include="Migrations\201708111935104_AddMovieAnnotations.Designer.cs">
+      <DependentUpon>201708111935104_AddMovieAnnotations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -282,6 +286,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MembershipType.cs" />
+    <Compile Include="Models\Min18YearsIfAMember.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -424,6 +429,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708022208572_SeedMoviesTableForNewFields.resx">
       <DependentUpon>201708022208572_SeedMoviesTableForNewFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708111935104_AddMovieAnnotations.resx">
+      <DependentUpon>201708111935104_AddMovieAnnotations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

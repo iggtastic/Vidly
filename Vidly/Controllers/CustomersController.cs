@@ -32,6 +32,7 @@ namespace Vidly.Controllers
             var membershipTypes = _context.MembershipTypes.ToList();
             var viewModel = new CustomerFormViewModel
             {
+                Customer = new Customer(), // initialize the customer so that id will not be null on page load
                 MembershipTypes = membershipTypes
             };
 
@@ -39,9 +40,21 @@ namespace Vidly.Controllers
         }
 
         [HttpPost] // no http get! actions that modify data should never use http get!
+        [ValidateAntiForgeryToken] // this enables the server-side validation of the anti-forgery token! this prevents CSRF attacks!
         public ActionResult Save(Customer customer) // this is model binding. MVC binds the request data to this model/view model
         // MVC is smart enough to map the fields in the form data to the Customer class instance since all of the fields are preceeded by "customer."
         {
+            // check the form data against the validation logic. if the data doesn't pass validation, return the same view
+            if (!ModelState.IsValid) {
+                var viewModel = new CustomerFormViewModel
+                {
+                    Customer = customer,
+                    MembershipTypes = _context.MembershipTypes.ToList()
+                };
+
+                return View("CustomerForm", viewModel);
+            }
+
             if (customer.Id == 0)
                 _context.Customers.Add(customer);
             else {

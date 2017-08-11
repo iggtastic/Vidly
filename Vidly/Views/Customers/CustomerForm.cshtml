@@ -9,6 +9,11 @@
 <h2>New Customer</h2>
 
 @using (@Html.BeginForm("Save", "Customers")) {
+
+    @* this will display all of the form validation errors at the top of the page. handy! *@
+    @Html.ValidationSummary()
+    @* this will suppress the individual errors and instead display a custom message *@
+    @*@Html.ValidationSummary(true,"Please fix noted errors")*@
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.Name)
         @*
@@ -19,16 +24,23 @@
                'form-control' is a bootstrap class which makes form fields look nice.
         *@
         @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
+        @* validation placeholder - this is where the validation message will appear *@
+        @Html.ValidationMessageFor(m=>m.Customer.Name)
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Customer.Birthdate)
-        @*<label for="Birthdate">Date of Birth</label>*@ @* another way to change the label display text. *@
-        @Html.TextBoxFor(m => m.Customer.Birthdate,"{0:d MMM yyyy}", new { @class = "form-control" })
-    </div>    
+
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.MembershipTypeId)
         @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes,"Id","Name"),"Select Membership Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m=>m.Customer.MembershipTypeId)
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Birthdate)
+        @*<label for="Birthdate">Date of Birth</label>*@ @* another way to change the label display text. this is fragile. *@
+        @Html.TextBoxFor(m => m.Customer.Birthdate,"{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m=>m.Customer.Birthdate)
+    </div> 
+       
     <div class="checkbox">
         <label>
             @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter) Subscribed to Newsletter?
@@ -36,7 +48,18 @@
     </div>
 
     @Html.HiddenFor(m=>m.Customer.Id)
+    @* creates a token and inserts it into a hidden field on the form and in a cookie in the user's browser.
+        Look for the input element with the name __RequestVerificationToken.
+        When the request hits the server, the server compares the token in the request data with the cookie.
+            If they match then the request goes through. Otherwise it's rejected.
+        Remember to enable the validation in the controller for the action!
+    *@
+    @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-primary">Save</button>
 
 } @* since we've wrapped the beginForm html helper in a using block, this brace is the end of the form *@
 
+@section scripts{
+    @* enable client-side form validation on a page by page basis like this *@
+    @Scripts.Render("~/bundles/jqueryval")
+}
