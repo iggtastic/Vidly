@@ -45,9 +45,9 @@ namespace Vidly.Controllers
         public ActionResult New()
         {
             var genres = _context.Genres.ToList();
-            var viewModel = new MovieFormViewModel
+            var viewModel = new MovieFormViewModel()
             {
-                Genres = genres,                
+                Genres = genres
             };
 
             return View("MovieForm", viewModel);
@@ -57,6 +57,16 @@ namespace Vidly.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
+
+            if (!ModelState.IsValid) {
+                var viewModel = new MovieFormViewModel(movie)
+                {
+                    Genres = _context.Genres.ToList()
+                };
+
+                return View("CustomerForm", viewModel);
+            }
+
             if (movie.Id == 0) { // an id of 0 indicates a new entry
                 movie.DateAdded = DateTime.Today; // best place to set fields that the user should not be setting
                 _context.Movies.Add(movie);
@@ -85,22 +95,12 @@ namespace Vidly.Controllers
             if (movie == null)
                 return HttpNotFound();
 
-            var viewModel = new MovieFormViewModel
+            var viewModel = new MovieFormViewModel(movie)
             {
-                Movie = movie,
                 Genres = _context.Genres.ToList()
             };
 
             return View("MovieForm", viewModel);
         }
-
-        //private IList<Movie> GetMovies()
-        //{
-        //    return new List<Movie>
-        //    {
-        //        new Movie { Name = "Shrek", Id = 1 },
-        //        new Movie { Name = "Fargo", Id = 2 }
-        //    };
-        //}
     }
 }
