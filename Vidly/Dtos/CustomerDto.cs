@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Vidly.Models;
 
 namespace Vidly.Dtos
 {
@@ -20,6 +19,7 @@ namespace Vidly.Dtos
 
         public byte MembershipTypeId { get; set; } // all struct types are required by default unless you mark them as nullable. see below
 
+        // commented out since it would throw an exception due to the hard reference to the Customer class
         //[Min18YearsIfAMember] // a custom validation class!
         public DateTime? Birthdate { get; set; } // this property is nullable because of the '?'
     }
