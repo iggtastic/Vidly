@@ -79,9 +79,10 @@ namespace Vidly.Controllers
             //   Customer is dependent on it and it will not be loaded by MVC by default
             //   in the View. the View will only pull in the explicitly referenced class,
             //   Customer. Basically, we're tying Customer to MembershipType.
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+            //var customers = _context.Customers.Include(c => c.MembershipType).ToList(); // we can comment this out since the ajax in the view is pulling the customers
+            //return View(customers);
 
-            return View(customers);
+            return View();
             //return View(GetCustomers());
         }
 

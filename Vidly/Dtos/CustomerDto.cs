@@ -19,6 +19,9 @@ namespace Vidly.Dtos
 
         public byte MembershipTypeId { get; set; } // all struct types are required by default unless you mark them as nullable. see below
 
+        // don't couple DTOs to domain objects! if the DTO needs to talk to an object, create a DTO for that object!
+        public MembershipTypeDto MembershipType { get; set; }
+
         // commented out since it would throw an exception due to the hard reference to the Customer class
         //[Min18YearsIfAMember] // a custom validation class!
         public DateTime? Birthdate { get; set; } // this property is nullable because of the '?'

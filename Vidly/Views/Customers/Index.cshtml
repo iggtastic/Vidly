@@ -7,23 +7,104 @@
 
 <h2>Customers</h2>
 
-@if (!Model.Any()) {
-    <p>There are no customers in the system</p>
-} else {
-    <table class="table table-bordered table-hover">
-        <tbody>
-            <tr>
-                <th>Customer</th>
-                <th>Membership Type</th>
-            </tr>
+@*
+    this if/else is no longer functional since we're no longer passing a model to the view
+
+    @if (!Model.Any()) {
+        <p>There are no customers in the system</p>
+    } else {
+        // this is where the table used to go
+    }
+*@
+
+<table id="customers" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Membership Type</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @* this code renders the table on the server. if rendering the table on the client, comment this out! *@
+        @*
             @foreach (var customer in Model) {
                 <tr>
-                    @*<td>@Html.ActionLink(customer.Name, "Details", "Customers", new { id = customer.Id }, null)</td>*@
-                    <td>@Html.ActionLink(customer.Name,"Edit","Customers",new { id = customer.Id }, null)</td>
+                    <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)</td>
                     <td>@customer.MembershipType.Name</td>
+                    <td><button data-customer-id="@customer.Id" class="btn btn-link js-delete">Delete</button></td>
                 </tr>
             }
-        </tbody>
-    </table>
-}
+        *@
+    </tbody>
+</table>
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // using the datatable plugin requires a standards-compliant table structure! this includes proper use of 
+            //   the <thead> and <tbody> tags!
+            var table = $("#customers").DataTable({
+                // the following code inside DataTable renders the table client-side by calling the API, saving server resources
+                ajax: {
+                    url: "/api/customers",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        // the data is in json format since it's from the API. the case matters!
+                        data: "name",
+                        render: function (data, type, customer) {
+                            return "<a href='/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
+                        },
+                    },
+                    {
+                        data: "membershipType.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn btn-link js-delete' data-customer-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+            // this function means that each customer will have its own delete button handler in memory. very memory expensive.
+            //$("#customers .js-delete").on("click", function () {
+
+            // this is more efficient - there is a single click handler for all buttons, tied to the customers table.
+            //   the handler will match any DOM element in the table that has the class js-delete.
+            $("#customers").on("click", ".js-delete", function() {
+                var button = $(this); // "this" is the button that was clicked
+
+                bootbox.confirm("Are you sure you want to delete this customer?", function (result) {
+                    if (result) {
+                        // call our delete customer API
+                        $.ajax({
+                            url: "/api/customers/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+                                //console.log("Success");
+                                //button.parents("tr").remove(); // remove the row containing the button that was clicked from the DOM
+                                table.row(button.parents("tr")).remove().draw(); // this will remove the row from DataTable's internal list of customers and redraw the table
+                            }
+                        });
+                    }
+                });
+
+                // this is the same code, but with a browser confirmation popup. very ugly.
+                //if (confirm("Are you sure you want to delete this customer?")) {
+                //    $.ajax({
+                //        url: "/api/customers/" + button.attr("data-customer-id"),
+                //        method: "DELETE",
+                //        success: function () {
+                //            //console.log("Success");
+                //            button.parents("tr").remove(); // remove the row containing the button that was clicked
+                //        }
+                //    });
+                //}
+            });
+        });
+    </script>
+}

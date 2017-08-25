@@ -11,6 +11,7 @@ namespace Vidly.App_Start
             // Domain to Dto
             CreateMap<Customer, CustomerDto>();
             CreateMap<Movie, MovieDto>();
+            CreateMap<MembershipType, MembershipTypeDto>();
 
             //Dto to Domain
             // ignore the id property since it's a primary key in the domain and cannot be modified. this avoids the following exception:
