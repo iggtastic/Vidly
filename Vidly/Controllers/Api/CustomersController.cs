@@ -25,7 +25,7 @@ namespace Vidly.Controllers.Api
         {
             //return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
             return Ok(_context.Customers
-                .Include(c => c.MembershipType)
+                .Include(c => c.MembershipType) // use Include to pull in membershiptype - allows us to show the membership type in the view
                 .ToList()
                 .Select(Mapper.Map<Customer, CustomerDto>));
         }
