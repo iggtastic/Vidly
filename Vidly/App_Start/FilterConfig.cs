@@ -8,6 +8,8 @@ namespace Vidly
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new AuthorizeAttribute()); // this causes the entire site to require authentication
+            filters.Add(new RequireHttpsAttribute());
         }
     }
 }

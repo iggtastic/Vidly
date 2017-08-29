@@ -28,7 +28,10 @@ namespace Vidly.Controllers
         {
             var movies = _context.Movies.Include(m => m.Genre).ToList();
 
-            return View(movies);
+            if(User.IsInRole(RoleName.CanManageMovies))
+                return View("List", movies);
+
+            return View("ReadOnlyList", movies);
             //return View(GetMovies());            
         }
 
@@ -42,6 +45,10 @@ namespace Vidly.Controllers
             return View(movie);
         }
 
+        // this action can only be access by a user who has the CanManageMovies role
+        //   you have to specify who has access to which actions!
+        // instead of using a magic string, use a class constant static string instead!
+        [Authorize(Roles =RoleName.CanManageMovies)]
         public ActionResult New()
         {
             var genres = _context.Genres.ToList();
@@ -55,6 +62,7 @@ namespace Vidly.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Save(Movie movie)
         {
 
@@ -88,6 +96,7 @@ namespace Vidly.Controllers
             return RedirectToAction("Index", "Movies");
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Edit(int id)
         {
             var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
