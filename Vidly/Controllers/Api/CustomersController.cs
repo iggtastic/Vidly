@@ -21,13 +21,20 @@ namespace Vidly.Controllers.Api
         // GET /api/customers
         // when using automapper and the DTO, change the generic type to the DTO
         //public IEnumerable<CustomerDto> GetCustomers()
-        public IHttpActionResult GetCustomers()
+        public IHttpActionResult GetCustomers(string query = null)
         {
-            //return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
-            return Ok(_context.Customers
-                .Include(c => c.MembershipType) // use Include to pull in membershiptype - allows us to show the membership type in the view
+            // changed this action to only return results that match the entered chars
+            var customersQuery = _context.Customers
+                .Include(c => c.MembershipType); // use Include to pull in membershiptype - allows us to show the membership type in the view
+
+            if (!string.IsNullOrWhiteSpace(query))
+                customersQuery = customersQuery.Where(c => c.Name.Contains(query));
+
+            var customerDtos = customersQuery
                 .ToList()
-                .Select(Mapper.Map<Customer, CustomerDto>));
+                .Select(Mapper.Map<Customer, CustomerDto>);
+            //return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            return Ok(customerDtos);
         }
 
         // GET /api/customers/1
